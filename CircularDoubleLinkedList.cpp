@@ -3,7 +3,6 @@ using namespace std;
 
 
 class LinkedList{
-public:
     struct Node{
         int data;
         Node *prev;
@@ -13,18 +12,17 @@ public:
     Node *head;
     Node *last;
     int size;
-//public:
-    LinkedList() : head(nullptr), size(0), last(nullptr){};
+public:
+    LinkedList() : head(nullptr), last(nullptr), size(0){};
     void pushFront(const int &val){
         Node *newNode = new Node(val);
         newNode->next = head;
-        if (head){
-            head->prev = newNode;
-        }
         head = newNode;
         if (!last){
             last = newNode;
         }
+        head->prev = last; //
+        last->next = head; //
         size++;
     };
     void pushBack(const int &val){
@@ -36,11 +34,16 @@ public:
         last->next = newNode;
         newNode->prev = last;
         last = newNode;
+        last->next = head; //
+        head->prev = last; //
         size++;
     };
-    void insert(const int &pos,const int &val){
+    void insert(const int &pos,const int &val){ //One-based index
         if (pos == size){
             pushBack(val);
+            return;
+        }else if(pos == 1){
+            pushFront(val);
             return;
         }
         Node *current = head;
@@ -58,14 +61,14 @@ public:
     }
     void print() const{
         Node *current = head;
-        while (current){
+        for (int i = 0; i < size *2; ++i) {
             cout << current->data << " ";
             current = current->next;
         }
     }
     void reversePrint() const{
         Node *current = last;
-        while (current){
+        for (int i = 0; i < size *2; ++i) {
             cout << current->data << " ";
             current = current->prev;
         }
@@ -73,26 +76,12 @@ public:
 };
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    /*int val1 = 5;
-    int val2 = 17;
-    pair<int, int> val3 = make_pair(2, 3);
-    int *ptr1, *ptr2;
-    ptr1 = &val1;
-    ptr2 = &val2;
-    auto ptr3 = &val3;
-    cout << val1 << " " << val2 << " " << val3.first << " " << val3.second << endl;
-    cout << ptr1 << " " << ptr2 << " " << ptr3 << endl;
-    cout << *ptr1 << " " << *ptr2 << " " << ptr3->first << " " << ptr3->second << endl;
-    cout << &ptr3->first << " " << &ptr3->second << endl;*/
+    cout << "Hello, World!" <<endl;
     LinkedList nums;
     nums.pushBack(1);
-    //nums.print(); cout << endl;
     nums.pushFront(0);
-    //nums.print(); cout << endl;
     nums.pushBack(3);
     nums.print(); cout << endl;
-    //cout << nums.last->data;
     nums.insert(2,2);
     nums.print(); cout << endl;
     nums.insert(4,15);

@@ -25,10 +25,8 @@ public:
 
         }
         head = newNode;
-        head->prev = last; //
         if (!last){
             last = newNode;
-            last->next = head; //
         }
         size++;
     };
